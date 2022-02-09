@@ -6,26 +6,25 @@
 # @description Check if item exists in the given array.
 #
 # @example
-#   array=("a" "b" "c")
-#   array::contains "c" ${array[@]}
+#   items=("a" "b" "c")
+#   array::contains "${items[@]}" "c"
 #   #Output
 #   0
 #
-# @arg $1 mixed Item to search (needle).
-# @arg $2 array array to be searched (haystack).
+# @arg $1 array Array to be searched.
+# @arg $2 mixed Item to search.
 #
-# @exitcode 0  If successful.
+# @exitcode 0 Success.
 # @exitcode 1 If no match found in the array.
 # @exitcode 2 Function missing arguments.
 array::contains() {
     [[ $# -lt 2 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
-    declare query="${1:-}"
-    shift
+    declare -a array=("${@:1:$#-1}")
+    declare query="${*:$#}"
 
-    for element in "${@}"; do
-        [[ "${element}" == "${query}" ]] && return 0
+    for element in "${array[@]}"; do
+        [[ "$element" == "$query" ]] && return 0
     done
-
     return 1
 }
 
@@ -282,3 +281,211 @@ array::merge() {
     declare out=("${arr1[@]}" "${arr2[@]}")
     printf "%s\n" "${out[@]}"
 }
+
+# @description Create an array with n zeros.
+#
+# @example
+#   items=($(array::zeros "3"))
+#   array::display "${items[@]}"
+#   #Output
+#        element 0 : 0
+#        element 1 : 0
+#        element 2 : 0
+#
+# @arg $1 string the length of the array to create.
+#
+# @exitcode 0 Success.
+# @exitcode 2 Function missing arguments.
+function array::zeros()
+{
+    [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
+    declare -a rtn=()
+    declare -i length=$1
+    for ((i=0; i<length; i++)) ; do 
+        rtn+=( "0" )
+    done 
+    printf '%s\n' "${rtn[@]}"
+}
+
+# @description Create an array with n ones.
+#
+# @example
+#   items=($(array::ones "3"))
+#   array::display "${items[@]}"
+#   #Output
+#        element 0 : 1
+#        element 1 : 1
+#        element 2 : 1
+#
+# @arg $1 string the length of the array to create.
+#
+# @exitcode 0 Success.
+# @exitcode 2 Function missing arguments.
+function array:ones()
+{
+    [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
+    declare -a rtn=()
+    declare -i length=$1
+    for ((i=0; i<length; i++)) ; do 
+        rtn+=( "1" )
+    done 
+    printf '%s\n' "${rtn[@]}"
+}
+
+# @description Remove the elements that not match with the filter.
+#
+# @example
+#   items=("op01a" "op02a" "op03m" "op04m" "op05a")
+#   regex="^op[0-9]{2}a$"
+#   items=($(array::filter "${items[@]}" "$regex"))
+#   array::display "${items[@]}"
+#   #Output
+#        element 0 : op01a
+#        element 1 : op02a
+#        element 2 : op05a
+#
+# @arg $1 array Array to fiter.
+# @arg $2 string Regex for the filter.
+#
+# @exitcode 0 Success.
+# @exitcode 2 Function missing arguments.
+function array::filter()
+{
+    [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
+    declare -a array=("${@:1:$#-1}")
+    declare regex="${*:$#}"
+    declare -a rtn=()
+
+    for element in "${array[@]}" ; do
+        [[ $element =~ $regex ]] && rtn+=( "$element" )
+    done
+    printf '%s\n' "${rtn[@]}"
+}
+
+# @description For each element of the array, keep the part that
+# match with the rule given in input.
+#
+# @example
+#   items=("op01a" "op02a" "op03m" "op04m" "op05a")
+#   keep="sed 's/[^a-z]*//g'"
+#   items=($(array::keep "${items[@]}" "$keep"))
+#   array::display "${items[@]}"
+#   #Output
+#        element 0 : opa
+#        element 1 : opa
+#        element 2 : opm
+#        element 3 : opm
+#        element 4 : opa
+#
+# @arg $1 array Array to process.
+# @arg $2 string Rule to apply.
+#
+# @exitcode 0 Success.
+# @exitcode 2 Function missing arguments.
+function array::keep()
+{
+    [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
+    declare -a array=("${@:1:$#-1}")
+    declare expr="${*:$#}"
+    declare -a rtn=()
+    for element in "${array[@]}" ; do
+        rtn+=( "$(echo "$element" | eval "$expr")" )
+    done
+    printf '%s\n' "${rtn[@]}"
+}
+
+# @description Display the array.
+#
+# @example
+#   items=("op01a" "op02a" "op03m" "op04m" "op05a")
+#   array::display "${items[@]}"
+#   #Output
+#        element 0 : op01a
+#        element 1 : op02a
+#        element 2 : op03m
+#        element 3 : op04m
+#        element 4 : op05a
+#
+# @arg $1 array Array to display.
+#
+# @exitcode 0 Success.
+# @exitcode 2 Function missing arguments.
+function array::display()
+{
+    [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
+    i=0
+    for element in "${@}" ; do
+      echo "element $i : $element"
+      (( ++i ))
+    done
+}
+
+# @description Remove the duplicate items from the array
+# (set policy).
+#
+# @example
+#   items=("op01a" "op02a" "op03m" "op03m" "op05a")
+#   IFS=" " read -r -a items <<< "$(array::toSet "${items[@]}")"
+#   array::display "${items[@]}"
+#   #Output
+#        element 0 : op01a
+#        element 1 : op02a
+#        element 2 : op03m
+#        element 4 : op05a
+#
+# @arg $1 array Array to process.
+#
+# @exitcode 0 Success.
+# @exitcode 2 Function missing arguments.
+function array::toSet()
+{
+    [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
+    declare -a rtn=()
+    mapfile -t rtn <<< "$(echo "${@}" | tr ' ' '\n' | sort -u | tr '\n' ' ')"
+    printf '%s\n' "${rtn[@]}"
+}
+
+# @description Find the maximum in an array of int.
+#
+# @example
+#   items=("2" "3" "1" "4")
+#   array::max "${items[@]}"
+#   #Output
+#        4
+#
+# @arg $1 array Array where to find the maximum.
+#
+# @exitcode 0 Success.
+# @exitcode 2 Function missing arguments.
+function array::max()
+{
+    [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
+    max=$1
+    for element in "${@}" ; do
+      [[ "$element" -gt "$max" ]] && max=$element
+    done
+    printf '%s\n' "$max"
+}
+
+# @description Find the minimum in an array of int.
+#
+# @example
+#   items=("2" "3" "1" "4")
+#   array::min "${items[@]}"
+#   #Output
+#        1
+#
+# @arg $1 array Array where to find the minimum.
+#
+# @exitcode 0 Success.
+# @exitcode 2 Function missing arguments.
+function array::min()
+{
+    [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
+    min=$1
+    for element in "${@}" ; do
+      [[ "$element" -lt "$min" ]] && min=$element
+    done
+    printf '%s\n' "$min"
+}
+
