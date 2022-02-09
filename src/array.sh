@@ -292,7 +292,7 @@ array::merge() {
 #        element 1 : 0
 #        element 2 : 0
 #
-# @arg $1 string the length of the array to create.
+# @arg $1 string The length of the array to create.
 #
 # @exitcode 0 Success.
 # @exitcode 2 Function missing arguments.
@@ -431,7 +431,7 @@ function array::display()
 #        element 0 : op01a
 #        element 1 : op02a
 #        element 2 : op03m
-#        element 4 : op05a
+#        element 3 : op05a
 #
 # @arg $1 array Array to process.
 #
@@ -445,7 +445,7 @@ function array::toSet()
     printf '%s\n' "${rtn[@]}"
 }
 
-# @description Find the maximum in an array of int.
+# @description Find the maximum in an array of integer.
 #
 # @example
 #   items=("2" "3" "1" "4")
@@ -453,7 +453,7 @@ function array::toSet()
 #   #Output
 #        4
 #
-# @arg $1 array Array where to find the maximum.
+# @arg $1 array Array in which to find the maximum.
 #
 # @exitcode 0 Success.
 # @exitcode 2 Function missing arguments.
@@ -467,7 +467,7 @@ function array::max()
     printf '%s\n' "$max"
 }
 
-# @description Find the minimum in an array of int.
+# @description Find the minimum in an array of integer.
 #
 # @example
 #   items=("2" "3" "1" "4")
@@ -475,7 +475,7 @@ function array::max()
 #   #Output
 #        1
 #
-# @arg $1 array Array where to find the minimum.
+# @arg $1 array Array in which to find the minimum.
 #
 # @exitcode 0 Success.
 # @exitcode 2 Function missing arguments.
