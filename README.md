@@ -46,6 +46,14 @@ Detailed documentation is available at <https://labbots.github.io/bash-utility/>
   - [array::rsort()](#arrayrsort)
   - [array::bsort()](#arraybsort)
   - [array::merge()](#arraymerge)
+  - [array::zeros()](#arrayzeros)
+  - [array::ones()](#arrayones)
+  - [array::filter()](#arrayfilter)
+  - [array::keep()](#arraykeep)
+  - [array::display()](#arraydisplay)
+  - [array::toSet()](#arraytoset)
+  - [array::max()](#arraymax)
+  - [array::min()](#arraymin)
 - [Check](#check)
   - [check::command_exists()](#checkcommand_exists)
   - [check::is_sudo()](#checkis_sudo)
@@ -231,20 +239,20 @@ Check if item exists in the given array.
 
 #### Arguments
 
-- **$1** (mixed): Item to search (needle).
-- **$2** (array): array to be searched (haystack).
+- **$1** (array): array to be searched (haystack).
+- **$2** (mixed): Item to search (needle).
 
 #### Exit codes
 
-- **0**:  If successful.
+- **0**: Success.
 - **1**: If no match found in the array.
 - **2**: Function missing arguments.
 
 #### Example
 
 ```bash
-array=("a" "b" "c")
-array::contains "c" ${array[@]}
+items=("a" "b" "c")
+array::contains "${items[@]}" "c"
 #Output
 0
 ```
@@ -501,6 +509,239 @@ a
 c
 d
 c
+```
+
+### array::zeros()
+
+Create an array with n zeros.
+
+#### Arguments
+
+- **$1** (string): The length of the array to create.
+
+#### Exit codes
+
+- **0**: Success.
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+- Array with n zeros.
+
+#### Example
+
+```bash
+items=($(array::zeros "3"))
+array::display "${items[@]}"
+#Output
+element 0 : 0
+element 1 : 0
+element 2 : 0
+```
+
+### array::ones()
+
+Create an array with n ones.
+
+#### Arguments
+
+- **$1** (string): The length of the array to create.
+
+#### Exit codes
+
+- **0**: Success.
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+- Array with n ones.
+
+#### Example
+
+```bash
+items=($(array::zeros "3"))
+array::display "${items[@]}"
+#Output
+element 0 : 0
+element 1 : 0
+element 2 : 0
+```
+
+### array::filter()
+
+Remove the elements that not match with the filter.
+
+#### Arguments
+
+- **$1** (array): Array to fiter.
+- **$2** (string): Regex for the fiter.
+
+#### Exit codes
+
+- **0**: Success.
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+- Filtered array.
+
+#### Example
+
+```bash
+items=("op01a" "op02a" "op03m" "op04m" "op05a")
+regex="^op[0-9]{2}a$"
+items=($(array::filter "${items[@]}" "$regex"))
+array::display "${items[@]}"
+#Output
+element 0 : op01a
+element 1 : op02a
+element 2 : op05a
+```
+
+### array::keep()
+
+For each element of the array, keep the part that match with the rule given in input.
+
+#### Arguments
+
+- **$1** (array): Array to process.
+- **$2** (string): Rule to apply.
+
+#### Exit codes
+
+- **0**: Success.
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+- Processed array.
+
+#### Example
+
+```bash
+items=("op01a" "op02a" "op03m" "op04m" "op05a")
+array::display "${items[@]}"
+#Output
+element 0 : op01a
+element 1 : op02a
+element 2 : op03m
+element 3 : op04m
+element 4 : op05a
+```
+
+### array::display()
+
+Display the array.
+
+#### Arguments
+
+- **$1** (array): Array to display.
+
+#### Exit codes
+
+- **0**: Success.
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+- Processed array.
+
+#### Example
+
+```bash
+items=("op01a" "op02a" "op03m" "op04m" "op05a")
+keep="sed 's/[^a-z]*//g'"
+items=($(array::keep "${items[@]}" "$keep"))
+array::display "${items[@]}"
+#Output
+element 0 : opa
+element 1 : opa
+element 2 : opm
+element 3 : opm
+element 4 : opa
+```
+
+### array::toSet()
+
+Remove the duplicate items from the array (set policy).
+
+#### Arguments
+
+- **$1** (array): Array to process.
+
+#### Exit codes
+
+- **0**: Success.
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+- Processed array.
+
+#### Example
+
+```bash
+items=("op01a" "op02a" "op03m" "op03m" "op05a")
+IFS=" " read -r -a items <<< "$(array::toSet "${items[@]}")"
+array::display "${items[@]}"
+#Output
+element 0 : op01a
+element 1 : op02a
+element 2 : op03m
+element 3 : op05a
+element 4 : opa
+```
+
+### array::max()
+
+Find the maximum in an array of integer.
+
+#### Arguments
+
+- **$1** (array): Array in which to find the maximum.
+
+#### Exit codes
+
+- **0**: Success.
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+- The maximum integer of the array.
+
+#### Example
+
+```bash
+items=("2" "3" "1" "4")
+array::max "${items[@]}"
+#Output
+4
+```
+
+### array::min()
+
+Find the mnimum in an array of integer.
+
+#### Arguments
+
+- **$1** (array): Array in which to find the minimum.
+
+#### Exit codes
+
+- **0**: Success.
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+- The minimum integer of the array.
+
+#### Example
+
+```bash
+items=("2" "3" "1" "4")
+array::min "${items[@]}"
+#Output
+1
 ```
 
 ## Check
