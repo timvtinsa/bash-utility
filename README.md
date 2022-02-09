@@ -1,3 +1,10 @@
+<h1 align="center">Extended Bash Utility</h1>
+
+This project is a fork from https://github.com/labbots/bash-utility.
+From this fork, I worked on two main points : 
+- I extended the array and date librairies.
+- I created a library for asynchronous management in bash (file async.sh).
+
 <h1 align="center">Bash Utility</h1>
 
 <p align="center">
