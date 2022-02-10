@@ -54,6 +54,11 @@ Detailed documentation is available at <https://labbots.github.io/bash-utility/>
   - [array::toSet()](#arraytoset)
   - [array::max()](#arraymax)
   - [array::min()](#arraymin)
+- [Async](#async)
+  - [async::run()](#asyncrun)
+  - [async::loading()](#asyncloading)
+  - [async::noCallback()](#asyncnoCallback)
+  - [async::msgCallback()](#asyncmsgCallback)
 - [Check](#check)
   - [check::command_exists()](#checkcommand_exists)
   - [check::is_sudo()](#checkis_sudo)
@@ -239,8 +244,8 @@ Check if item exists in the given array.
 
 #### Arguments
 
-- **$1** (array): array to be searched (haystack).
-- **$2** (mixed): Item to search (needle).
+- **$1** (array): Array to be searched.
+- **$2** (mixed): Item to search.
 
 #### Exit codes
 
@@ -510,238 +515,82 @@ c
 d
 c
 ```
+## Async
 
-### array::zeros()
+Functions for asynchron management. 
 
-Create an array with n zeros.
+### async::run()
+
+Run an asynchron call of a function.
 
 #### Arguments
 
-- **$1** (string): The length of the array to create.
+- **$1** (function): The function to run in background.
+- **$2** (function): The callback function.
+- **$3** (int): Flag to activate the loading during the processing of the main
 
 #### Exit codes
 
 - **0**: Success.
 - **2**: Function missing arguments.
 
-#### Output on stdout
-
-- Array with n zeros.
-
 #### Example
 
 ```bash
-items=($(array::zeros "3"))
-array::display "${items[@]}"
-#Output
-element 0 : 0
-element 1 : 0
-element 2 : 0
+foo()  { zip foo.zip *; }
+bar()  { echo "done!";  }
+async::run foo bar 0
 ```
 
-### array::ones()
+### async::loading()
 
-Create an array with n ones.
+Display a loading animation during the process of the main function.
 
 #### Arguments
 
-- **$1** (string): The length of the array to create.
-
+No arguments.
 #### Exit codes
 
 - **0**: Success.
-- **2**: Function missing arguments.
-
-#### Output on stdout
-
-- Array with n ones.
 
 #### Example
 
 ```bash
-items=($(array::zeros "3"))
-array::display "${items[@]}"
-#Output
-element 0 : 0
-element 1 : 0
-element 2 : 0
+async::loading
 ```
 
-### array::filter()
+### async::noCallback()
 
-Remove the elements that not match with the filter.
+Placeholder for the callback function.
 
 #### Arguments
 
-- **$1** (array): Array to fiter.
-- **$2** (string): Regex for the fiter.
-
+No arguments.
 #### Exit codes
 
 - **0**: Success.
-- **2**: Function missing arguments.
-
-#### Output on stdout
-
-- Filtered array.
 
 #### Example
 
 ```bash
-items=("op01a" "op02a" "op03m" "op04m" "op05a")
-regex="^op[0-9]{2}a$"
-items=($(array::filter "${items[@]}" "$regex"))
-array::display "${items[@]}"
-#Output
-element 0 : op01a
-element 1 : op02a
-element 2 : op05a
+async::noCallback
 ```
 
-### array::keep()
+### async::msgCallback()
 
-For each element of the array, keep the part that match with the rule given in input.
+Callback function to display a message.
 
 #### Arguments
 
-- **$1** (array): Array to process.
-- **$2** (string): Rule to apply.
-
+- **$1** (string): The message to display.
 #### Exit codes
 
 - **0**: Success.
-- **2**: Function missing arguments.
-
-#### Output on stdout
-
-- Processed array.
 
 #### Example
 
 ```bash
-items=("op01a" "op02a" "op03m" "op04m" "op05a")
-array::display "${items[@]}"
-#Output
-element 0 : op01a
-element 1 : op02a
-element 2 : op03m
-element 3 : op04m
-element 4 : op05a
-```
-
-### array::display()
-
-Display the array.
-
-#### Arguments
-
-- **$1** (array): Array to display.
-
-#### Exit codes
-
-- **0**: Success.
-- **2**: Function missing arguments.
-
-#### Output on stdout
-
-- Processed array.
-
-#### Example
-
-```bash
-items=("op01a" "op02a" "op03m" "op04m" "op05a")
-keep="sed 's/[^a-z]*//g'"
-items=($(array::keep "${items[@]}" "$keep"))
-array::display "${items[@]}"
-#Output
-element 0 : opa
-element 1 : opa
-element 2 : opm
-element 3 : opm
-element 4 : opa
-```
-
-### array::toSet()
-
-Remove the duplicate items from the array (set policy).
-
-#### Arguments
-
-- **$1** (array): Array to process.
-
-#### Exit codes
-
-- **0**: Success.
-- **2**: Function missing arguments.
-
-#### Output on stdout
-
-- Processed array.
-
-#### Example
-
-```bash
-items=("op01a" "op02a" "op03m" "op03m" "op05a")
-IFS=" " read -r -a items <<< "$(array::toSet "${items[@]}")"
-array::display "${items[@]}"
-#Output
-element 0 : op01a
-element 1 : op02a
-element 2 : op03m
-element 3 : op05a
-element 4 : opa
-```
-
-### array::max()
-
-Find the maximum in an array of integer.
-
-#### Arguments
-
-- **$1** (array): Array in which to find the maximum.
-
-#### Exit codes
-
-- **0**: Success.
-- **2**: Function missing arguments.
-
-#### Output on stdout
-
-- The maximum integer of the array.
-
-#### Example
-
-```bash
-items=("2" "3" "1" "4")
-array::max "${items[@]}"
-#Output
-4
-```
-
-### array::min()
-
-Find the mnimum in an array of integer.
-
-#### Arguments
-
-- **$1** (array): Array in which to find the minimum.
-
-#### Exit codes
-
-- **0**: Success.
-- **2**: Function missing arguments.
-
-#### Output on stdout
-
-- The minimum integer of the array.
-
-#### Example
-
-```bash
-items=("2" "3" "1" "4")
-array::min "${items[@]}"
-#Output
-1
+async::msgCallback "Message"
 ```
 
 ## Check

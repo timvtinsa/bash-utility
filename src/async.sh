@@ -1,11 +1,14 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+# @file Async
+# @brief Functions for asynchron management. 
 
 # @description Run an asynchron call of a function.
 #
 # @example
 #   foo()  { zip foo.zip *; }
 #   bar()  { echo "done!";  }
-#   async::run foo bar
+#   async::run foo bar 0
 #
 # @arg $1 function The function to run in background.
 # @arg $2 function The callback function.
