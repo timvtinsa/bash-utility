@@ -16,7 +16,7 @@
 # @exitcode 1 If unable to generate timestamp.
 #
 # @stdout current timestamp.
-date::now() {
+function date::now() {
     declare now
     now="$(date --universal +%s)" || return $?
     printf "%s" "${now}"
@@ -36,7 +36,7 @@ date::now() {
 # @exitcode 2 Function missing arguments.
 #
 # @stdout timestamp for specified datetime.
-date::epoc() {
+function date::epoc() {
     [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
 
     declare date
@@ -60,7 +60,7 @@ date::epoc() {
 # @exitcode 2 Function missing arguments.
 #
 # @stdout timestamp.
-date::add_days_from() {
+function date::add_days_from() {
     [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
 
     declare timestamp new_timestamp day
@@ -86,7 +86,7 @@ date::add_days_from() {
 # @exitcode 2 Function missing arguments.
 #
 # @stdout timestamp.
-date::add_months_from() {
+function date::add_months_from() {
     [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
 
     declare timestamp new_timestamp month
@@ -112,7 +112,7 @@ date::add_months_from() {
 # @exitcode 2 Function missing arguments.
 #
 # @stdout timestamp.
-date::add_years_from() {
+function date::add_years_from() {
     [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
 
     declare timestamp new_timestamp year
@@ -138,7 +138,7 @@ date::add_years_from() {
 # @exitcode 2 Function missing arguments.
 #
 # @stdout timestamp.
-date::add_weeks_from() {
+function date::add_weeks_from() {
     [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
 
     declare timestamp new_timestamp week
@@ -164,7 +164,7 @@ date::add_weeks_from() {
 # @exitcode 2 Function missing arguments.
 #
 # @stdout timestamp.
-date::add_hours_from() {
+function date::add_hours_from() {
     [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
 
     declare timestamp new_timestamp hour
@@ -190,7 +190,7 @@ date::add_hours_from() {
 # @exitcode 2 Function missing arguments.
 #
 # @stdout timestamp.
-date::add_minutes_from() {
+function date::add_minutes_from() {
     [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
 
     declare timestamp new_timestamp minute
@@ -216,7 +216,7 @@ date::add_minutes_from() {
 # @exitcode 2 Function missing arguments.
 #
 # @stdout timestamp.
-date::add_seconds_from() {
+function date::add_seconds_from() {
     [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
 
     declare timestamp new_timestamp minute
@@ -240,7 +240,7 @@ date::add_seconds_from() {
 # @exitcode 1 If unable to generate timestamp.
 #
 # @stdout timestamp.
-date::add_days() {
+function date::add_days() {
     declare timestamp new_timestamp day
     timestamp="$(date::now)"
     day=${1:-1}
@@ -262,7 +262,7 @@ date::add_days() {
 # @exitcode 1 If unable to generate timestamp.
 #
 # @stdout timestamp.
-date::add_months() {
+function date::add_months() {
     declare timestamp new_timestamp month
     timestamp="$(date::now)"
     month=${1:-1}
@@ -284,7 +284,7 @@ date::add_months() {
 # @exitcode 1 If unable to generate timestamp.
 #
 # @stdout timestamp.
-date::add_years() {
+function date::add_years() {
     declare timestamp new_timestamp year
     timestamp="$(date::now)"
     year=${1:-1}
@@ -306,7 +306,7 @@ date::add_years() {
 # @exitcode 1 If unable to generate timestamp.
 #
 # @stdout timestamp.
-date::add_weeks() {
+function date::add_weeks() {
     declare timestamp new_timestamp week
     timestamp="$(date::now)"
     week=${1:-1}
@@ -328,7 +328,7 @@ date::add_weeks() {
 # @exitcode 1 If unable to generate timestamp.
 #
 # @stdout timestamp.
-date::add_hours() {
+function date::add_hours() {
     declare timestamp new_timestamp hour
     timestamp="$(date::now)"
     hour=${1:-1}
@@ -350,7 +350,7 @@ date::add_hours() {
 # @exitcode 1 If unable to generate timestamp.
 #
 # @stdout timestamp.
-date::add_minutes() {
+function date::add_minutes() {
     declare timestamp new_timestamp minute
     timestamp="$(date::now)"
     minute=${1:-1}
@@ -372,7 +372,7 @@ date::add_minutes() {
 # @exitcode 1 If unable to generate timestamp.
 #
 # @stdout timestamp.
-date::add_seconds() {
+function date::add_seconds() {
     declare timestamp new_timestamp minute
     timestamp="$(date::now)"
     second=${1:-1}
@@ -396,7 +396,7 @@ date::add_seconds() {
 # @exitcode 2 Function missing arguments.
 #
 # @stdout timestamp.
-date::sub_days_from() {
+function date::sub_days_from() {
     [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
 
     declare timestamp new_timestamp day
@@ -422,7 +422,7 @@ date::sub_days_from() {
 # @exitcode 2 Function missing arguments.
 #
 # @stdout timestamp.
-date::sub_months_from() {
+function date::sub_months_from() {
     [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
 
     declare timestamp new_timestamp month
@@ -448,7 +448,7 @@ date::sub_months_from() {
 # @exitcode 2 Function missing arguments.
 #
 # @stdout timestamp.
-date::sub_years_from() {
+function date::sub_years_from() {
     [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
 
     declare timestamp new_timestamp year
@@ -474,7 +474,7 @@ date::sub_years_from() {
 # @exitcode 2 Function missing arguments.
 #
 # @stdout timestamp.
-date::sub_weeks_from() {
+function date::sub_weeks_from() {
     [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
 
     declare timestamp new_timestamp week
@@ -500,7 +500,7 @@ date::sub_weeks_from() {
 # @exitcode 2 Function missing arguments.
 #
 # @stdout timestamp.
-date::sub_hours_from() {
+function date::sub_hours_from() {
     [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
 
     declare timestamp new_timestamp hour
@@ -526,7 +526,7 @@ date::sub_hours_from() {
 # @exitcode 2 Function missing arguments.
 #
 # @stdout timestamp.
-date::sub_minutes_from() {
+function date::sub_minutes_from() {
     [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
 
     declare timestamp new_timestamp minute
@@ -552,7 +552,7 @@ date::sub_minutes_from() {
 # @exitcode 2 Function missing arguments.
 #
 # @stdout timestamp.
-date::sub_seconds_from() {
+function date::sub_seconds_from() {
     [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
 
     declare timestamp new_timestamp minute
@@ -576,7 +576,7 @@ date::sub_seconds_from() {
 # @exitcode 1 If unable to generate timestamp.
 #
 # @stdout timestamp.
-date::sub_days() {
+function date::sub_days() {
     declare timestamp new_timestamp day
     timestamp="$(date::now)"
     day=${1:-1}
@@ -598,7 +598,7 @@ date::sub_days() {
 # @exitcode 1 If unable to generate timestamp.
 #
 # @stdout timestamp.
-date::sub_months() {
+function date::sub_months() {
     declare timestamp new_timestamp month
     timestamp="$(date::now)"
     month=${1:-1}
@@ -620,7 +620,7 @@ date::sub_months() {
 # @exitcode 1 If unable to generate timestamp.
 #
 # @stdout timestamp.
-date::sub_years() {
+function date::sub_years() {
     declare timestamp new_timestamp year
     timestamp="$(date::now)"
     year=${1:-1}
@@ -642,7 +642,7 @@ date::sub_years() {
 # @exitcode 1 If unable to generate timestamp.
 #
 # @stdout timestamp.
-date::sub_weeks() {
+function date::sub_weeks() {
     declare timestamp new_timestamp week
     timestamp="$(date::now)"
     week=${1:-1}
@@ -664,7 +664,7 @@ date::sub_weeks() {
 # @exitcode 1 If unable to generate timestamp.
 #
 # @stdout timestamp.
-date::sub_hours() {
+function date::sub_hours() {
     declare timestamp new_timestamp hour
     timestamp="$(date::now)"
     hour=${1:-1}
@@ -686,7 +686,7 @@ date::sub_hours() {
 # @exitcode 1 If unable to generate timestamp.
 #
 # @stdout timestamp.
-date::sub_minutes() {
+function date::sub_minutes() {
     declare timestamp new_timestamp minute
     timestamp="$(date::now)"
     minute=${1:-1}
@@ -708,7 +708,7 @@ date::sub_minutes() {
 # @exitcode 1 If unable to generate timestamp.
 #
 # @stdout timestamp.
-date::sub_seconds() {
+function date::sub_seconds() {
     declare timestamp new_timestamp minute
     timestamp="$(date::now)"
     second=${1:-1}
@@ -732,7 +732,7 @@ date::sub_seconds() {
 # @exitcode 2 Function missing arguments.
 #
 # @stdout formatted time string.
-date::format() {
+function date::format() {
     [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
 
     declare timestamp format out
@@ -742,3 +742,179 @@ date::format() {
     printf "%s" "${out}"
 
 }
+
+# @description Check if a month gets 30 days.
+# Supports input like 01, 1, 10 etc. 
+#
+# @example
+#   date::isThirtyMonth "10"
+#
+# @arg $1 string The month id to test.
+#
+# @exitcode 0 The month tested is a month of thirty days.
+# @exitcode 1 The month tested is not a month of thirty days.
+# @exitcode 2 Function missing arguments.
+function date::isThirtyMonth()
+{
+    [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
+    [[ "$1" =~ ^((0?[469])|(11))$ ]] && return 0
+    return 1
+}
+
+# @description Check if a month gets 31 days.
+# Supports input like 01, 1, 10 etc. 
+#
+# @example
+#   date::isThirtyOneMonth "10"
+#
+# @arg $1 string The month id to test.
+#
+# @exitcode 0 The month tested is a month of thirty one days.
+# @exitcode 1 The month tested is not a month of thirty one days.
+# @exitcode 2 Function missing arguments.
+function date::isThirtyOneMonth()
+{
+    [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
+    [[ "$1" =~ ^((0?[13578])|(1[02]))$ ]] && return 0
+    return 1
+}
+
+# @description Check if a month is February.
+# Supports input like 01, 1, 10 etc. 
+#
+# @example
+#   date::isFebruray "10"
+#
+# @arg $1 string The month id to test.
+#
+# @exitcode 0 The month tested is February.
+# @exitcode 1 The month tested is not February.
+# @exitcode 2 Function missing arguments.
+function date::isFebruray()
+{
+    [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
+    [[ "$1" -eq "02" || "$1" -eq "2" ]] && return 0
+    return 1
+}
+
+# @description Check if a day id is in [0-30].
+# Supports input like 01, 1, 10 etc. 
+#
+# @example
+#   date::inThirtyMonth "10"
+#
+# @arg $1 string The day id to test.
+#
+# @exitcode 0 The day id tested is in [0-30].
+# @exitcode 1 The day id tested is not in [0-30].
+# @exitcode 2 Function missing arguments.
+function date::inThirtyMonth()
+{
+    [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
+    [[ "$1" =~ ^(0[1-9]|[1-2][0-9]|30)$ ]] && return 0
+    return 1
+}
+
+# @description Check if a day id is in [0-31].
+# Supports input like 01, 1, 10 etc. 
+#
+# @example
+#   date::inThirtyOneMonth "10"
+#
+# @arg $1 string The day id to test.
+#
+# @exitcode 0 The day id tested is in [0-31].
+# @exitcode 1 The day id tested is not in [0-31].
+# @exitcode 2 Function missing arguments.
+function date::inThirtyOneMonth()
+{
+    [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
+    [[ "$1" =~ ^(0[1-9]|[1-2][0-9]|3[01])$ ]] && return 0
+    return 1
+}
+
+# @description Check if a day id is in [0-29].
+# Supports input like 01, 1, 10 etc. 
+#
+# @example
+#   date::inFebruary "10"
+#
+# @arg $1 string The day id to test.
+#
+# @exitcode 0 The day id tested is in [0-29].
+# @exitcode 1 The day id tested is not in [0-29].
+# @exitcode 2 Function missing arguments.
+function date::inFebruary()
+{
+    [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
+    [[ "$1" =~ ^(0[1-9]|[12]\d)$ ]] && return 0
+    return 1
+}
+
+
+# @description Check if a month id is in [1-12].
+# Supports input like 01, 1, 10 etc. 
+#
+# @example
+#   date::isValidMonth "10"
+#
+# @arg $1 string The month id to test.
+#
+# @exitcode 0 The month id tested is in [1-12].
+# @exitcode 1 The month id tested is not in [1-12].
+# @exitcode 2 Function missing arguments.
+function date::isValidMonth()
+{
+    [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
+    [[ "$1" =~ ^((0?[1-9])|(1[0-2]))$ ]] && return 0
+    return 1
+}
+
+# @description Check if a day id is in a specific given month.
+# Supports input like 01, 1, 10 for day and month ids etc. 
+#
+# @example
+#   date::isValidDayInMonth "31" "01"
+#
+# @arg $1 string The day id to test.
+# @arg $2 string The month id to test.
+#
+# @exitcode 0 The day id tested is in the given month.
+# @exitcode 1 The day id tested is not in the given month.
+# @exitcode 2 Function missing arguments.
+function date::isValidDayInMonth()
+{
+    [[ $# -lt 2 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
+    if [[ $(date::isThirtyMonth "$2") -eq 0 ]] ; then
+        date::inThirtyMonth "$1"
+    else
+        if [[ $(date::isThirtyOneMonth "$2") -eq 0 ]] ; then
+            date::inThirtyOneMonth "$1"
+        else
+            if [[ $(isFebruary "$2") -eq 0 ]] ; then
+                date::inFebruary "$1"
+            fi
+        fi
+    fi
+    return $?
+}
+
+# @description Check if an hour id is in [0-23].
+# Supports input like 01, 1, 10 etc. 
+#
+# @example
+#   date::isValidHour "13"
+#
+# @arg $1 string The day id to test.
+# @arg $2 string The month id to test.
+#
+# @exitcode 0 The day id tested is in the given month.
+# @exitcode 1 The day id tested is not in the given month.
+# @exitcode 2 Function missing arguments.
+function date::isValidHour()
+{
+    [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
+    [[ "$1" =~ ^((0?[0-9])|(1[0-9])|(2[0-3]))$ ]] && return 0
+    return 1
+}
+
