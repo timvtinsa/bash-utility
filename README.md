@@ -3,7 +3,34 @@
 This project is a fork from https://github.com/labbots/bash-utility.
 From this fork, I worked on two main points : 
 - I extended the array and date librairies.
-- I created a library for asynchronous management in bash (file async.sh).
+  - For the array library, I've made the following functions : 
+    - [array::contains()](#arraycontains)
+    - [array::zeros()](#arrayzeros)
+    - [array::ones()](#arrayones)
+    - [array::filter()](#arrayfilter)
+    - [array::keep()](#arraykeep)
+    - [array::display()](#arraydisplay)
+    - [array::toSet()](#arraytoset)
+    - [array::max()](#arraymax)
+    - [array::min()](#arraymin)
+  
+  - For the date library, I've made the following functions : 
+    - [date::isThirtyMonth()](#dateisthirtymonth)
+    - [date::isThirtyOneMonth()](#dateisthirtyonemonth)
+    - [date::isFebruray()](#dateisfebruray)
+    - [date::inThirtyMonth()](#dateinthirtymonth)
+    - [date::inThirtyOneMonth()](#dateinthirtyonemonth)
+    - [date::inFebruary()](#dateinfebruary)
+    - [date::isValidMonth()](#dateisvalidmonth)
+    - [date::isValidDayInMonth()](#dateisvaliddayinmonth)
+    - [date::isValidHour()](#dateisvalidhour)
+  
+- I created a library for asynchronous management in bash (file async.sh) :
+  - [Async](#async)
+    - [async::run()](#asyncrun)
+    - [async::loading()](#asyncloading)
+    - [async::noCallback()](#asyncnocallback)
+    - [async::msgCallback()](#asyncmsgcallback)
 
 <h1 align="center">Bash Utility</h1>
 
@@ -57,8 +84,8 @@ Detailed documentation is available at <https://labbots.github.io/bash-utility/>
 - [Async](#async)
   - [async::run()](#asyncrun)
   - [async::loading()](#asyncloading)
-  - [async::noCallback()](#asyncnoCallback)
-  - [async::msgCallback()](#asyncmsgCallback)
+  - [async::noCallback()](#asyncnocallback)
+  - [async::msgCallback()](#asyncmsgcallback)
 - [Check](#check)
   - [check::command_exists()](#checkcommand_exists)
   - [check::is_sudo()](#checkis_sudo)
