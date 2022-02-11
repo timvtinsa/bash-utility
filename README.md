@@ -103,6 +103,15 @@ Detailed documentation is available at <https://labbots.github.io/bash-utility/>
   - [date::sub_minutes()](#datesub_minutes)
   - [date::sub_seconds()](#datesub_seconds)
   - [date::format()](#dateformat)
+  - [date::isThirtyMonth()](#dateisthirtymonth)
+  - [date::isThirtyOneMonth()](#dateisthirtyonemonth)
+  - [date::isFebruray()](#dateisfebruray)
+  - [date::inThirtyMonth()](#dateinthirtymonth)
+  - [date::inThirtyOneMonth()](#dateinthirtyonemonth)
+  - [date::inFebruary()](#dateinfebruary)
+  - [date::isValidMonth()](#dateisvalidmonth)
+  - [date::isValidDayInMonth()](#dateisvaliddayinmonth)
+  - [date::isValidHour()](#dateisvalidhour)
 - [Debug](#debug)
   - [debug::print_array()](#debugprint_array)
   - [debug::print_ansi()](#debugprint_ansi)
@@ -1710,6 +1719,233 @@ If format string is not specified then it defaults to "yyyy-mm-dd hh:mm:ss" form
 echo echo "$(date::format "1594143480")"
 #Output
 2020-07-07 18:38:00
+```
+
+### date::isThirtyMonth()
+
+Check if a month gets 30 days.
+Supports input like 01, 1, 10 etc. 
+
+#### Arguments
+
+- **$1** (string): The month id to test
+
+#### Exit codes
+
+- **0**: The month tested is a month of thirty days.
+- **1**: The month tested is not a month of thirty days.
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+No output.
+
+#### Example
+
+```bash
+date::isThirtyMonth "10"
+```
+
+### date::isThirtyOneMonth()
+
+Check if a month gets 31 days.
+Supports input like 01, 1, 10 etc. 
+
+#### Arguments
+
+- **$1** (string): The month id to test
+
+#### Exit codes
+
+- **0**: The month tested is a month of thirty one days.
+- **1**: The month tested is not a month of thirty one days.
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+No output.
+
+#### Example
+
+```bash
+date::isThirtyOneMonth "10"
+```
+
+### date::isFebruray()
+
+Check if a month is February.
+Supports input like 01, 1, 10 etc. 
+
+#### Arguments
+
+- **$1** (string): The month id to test
+
+#### Exit codes
+
+- **0**: The month tested is February.
+- **1**: The month tested is not February.
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+No output.
+
+#### Example
+
+```bash
+date::isFebruray "10"
+```
+
+### date::inThirtyMonth()
+
+Check if a day id is in [0-30].
+Supports input like 01, 1, 10 etc. 
+
+#### Arguments
+
+- **$1** (string): The day id to test.
+
+#### Exit codes
+
+- **0**: The day id tested is in [0-30].
+- **1**: The day id tested is not in [0-30].
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+No output.
+
+#### Example
+
+```bash
+date::inThirtyMonth "10"
+```
+
+### date::inThirtyOneMonth()
+
+Check if a day id is in [0-31].
+Supports input like 01, 1, 10 etc. 
+
+#### Arguments
+
+- **$1** (string): The day id to test.
+
+#### Exit codes
+
+- **0**: The day id tested is in [0-31].
+- **1**: The day id tested is not in [0-31].
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+No output.
+
+#### Example
+
+```bash
+date::inThirtyOneMonth "10"
+```
+
+### date::inFebruary()
+
+Check if a day id is in [0-29].
+Supports input like 01, 1, 10 etc. 
+
+#### Arguments
+
+- **$1** (string): The day id to test.
+
+#### Exit codes
+
+- **0**: The day id tested is in [0-29].
+- **1**: The day id tested is not in [0-29].
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+No output.
+
+#### Example
+
+```bash
+date::inFebruary "10"
+```
+
+### date::isValidMonth()
+
+Check if a month id is in [1-12].
+Supports input like 01, 1, 10 etc. 
+
+#### Arguments
+
+- **$1** (string): The month id to test.
+
+#### Exit codes
+
+- **0**: The day id tested is in [0-29].
+- **1**: The day id tested is not in [0-29].
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+No output.
+
+#### Example
+
+```bash
+date::isValidMonth "10"
+```
+
+### date::isValidDayInMonth()
+
+Check if a day id is in a specific given month. 
+Supports input like 01, 1, 10 for day and month ids etc.
+
+#### Arguments
+
+- **$1** (string): The day id to test.
+- **$1** (string): The month id to test.
+
+#### Exit codes
+
+- **0**: The day id tested is in the given month.
+- **1**: The day id tested is not in the given month.
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+No output.
+
+#### Example
+
+```bash
+date::isValidDayInMonth "31" "01"
+```
+
+### date::isValidHour()
+
+Check if an hour id is in [0-23].
+Supports input like 01, 1, 10 etc. 
+
+#### Arguments
+
+- **$1** (string): The day id to test.
+- **$1** (string): The month id to test.
+
+#### Exit codes
+
+- **0**: The hour id is in [0-23].
+- **1**: The hour id is not in [0-23].
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+No output.
+
+#### Example
+
+```bash
+date::isValidHour "13"
 ```
 
 ## Debug

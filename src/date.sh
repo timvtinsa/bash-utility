@@ -905,11 +905,10 @@ function date::isValidDayInMonth()
 # @example
 #   date::isValidHour "13"
 #
-# @arg $1 string The day id to test.
-# @arg $2 string The month id to test.
+# @arg $1 string The hour id to test.
 #
-# @exitcode 0 The day id tested is in the given month.
-# @exitcode 1 The day id tested is not in the given month.
+# @exitcode 0 The hour id is in [0-23].
+# @exitcode 1 The hour id is not in [0-23].
 # @exitcode 2 Function missing arguments.
 function date::isValidHour()
 {
