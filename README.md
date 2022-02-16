@@ -13,6 +13,7 @@ From this fork, I worked on two main points :
     - [array::toSet()](#arraytoset)
     - [array::max()](#arraymax)
     - [array::min()](#arraymin)
+    - [array::sum()](#arraysum)
   
   - For the date library, I've made the following functions : 
     - [date::isThirtyMonth()](#dateisthirtymonth)
@@ -81,6 +82,7 @@ Detailed documentation is available at <https://labbots.github.io/bash-utility/>
   - [array::toSet()](#arraytoset)
   - [array::max()](#arraymax)
   - [array::min()](#arraymin)
+  - [array::sum()](#arraysum)
 - [Async](#async)
   - [async::run()](#asyncrun)
   - [async::loading()](#asyncloading)
@@ -783,6 +785,32 @@ items=("2" "3" "1" "4")
 array::min "${items[@]}"
 #Output
 1
+```
+
+### array::sum()
+
+Compute the sum of the elements of an array of int.
+
+#### Arguments
+
+- **$1** (array): Array to sum.
+
+#### Exit codes
+
+- **0**: Success.
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+- The sum of the elements of the array.
+
+#### Example
+
+```bash
+items=("2" "3" "1" "4")
+array::sum "${items[@]}"
+#Output
+10
 ```
 
 ## Async

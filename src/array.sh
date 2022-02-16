@@ -489,3 +489,23 @@ function array::min()
     printf '%s\n' "$min"
 }
 
+# @description Compute the sum of the elements of an array of int.
+#
+# @example
+#   items=("2" "3" "1" "4")
+#   array::sum "${items[@]}"
+#   #Output
+#        10
+#
+# @arg $1 array Array to sum.
+#
+# @exitcode 0 Success.
+# @exitcode 2 Function missing arguments.
+function array::sum()
+{
+    declare -i sum=0
+    for element in  "${@}" ; do
+        (( sum+=element ))
+    done
+    printf '%s\n' "$sum"
+}

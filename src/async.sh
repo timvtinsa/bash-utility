@@ -23,7 +23,7 @@ function async::run()
     {
         $1 &>/dev/null
         $2
-    }&
+    } &
     if [[ "$3" == 1 ]] ; then
         async::loading
     fi
@@ -56,7 +56,7 @@ function async::loading()
 # @exitcode 0 Success.
 function async::noCallback()
 {
-  return 0
+    return 0
 }
 
 # @description Callback function to display a message.
@@ -69,6 +69,6 @@ function async::noCallback()
 # @exitcode 0 Success.
 function async::msgCallback()
 {
-  echo -e "\r$*"
-  echo ""
+    echo -e "\r$*"
+    echo ""
 }
