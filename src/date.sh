@@ -754,6 +754,8 @@ function date::format() {
 # @exitcode 0 The month tested is a month of thirty days.
 # @exitcode 1 The month tested is not a month of thirty days.
 # @exitcode 2 Function missing arguments.
+#
+# @stdout No output.
 function date::isThirtyMonth()
 {
     [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
@@ -772,6 +774,8 @@ function date::isThirtyMonth()
 # @exitcode 0 The month tested is a month of thirty one days.
 # @exitcode 1 The month tested is not a month of thirty one days.
 # @exitcode 2 Function missing arguments.
+#
+# @stdout No output.
 function date::isThirtyOneMonth()
 {
     [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
@@ -790,6 +794,8 @@ function date::isThirtyOneMonth()
 # @exitcode 0 The month tested is February.
 # @exitcode 1 The month tested is not February.
 # @exitcode 2 Function missing arguments.
+#
+# @stdout No output.
 function date::isFebruray()
 {
     [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
@@ -808,6 +814,8 @@ function date::isFebruray()
 # @exitcode 0 The day id tested is in [0-30].
 # @exitcode 1 The day id tested is not in [0-30].
 # @exitcode 2 Function missing arguments.
+#
+# @stdout No output.
 function date::inThirtyMonth()
 {
     [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
@@ -826,6 +834,8 @@ function date::inThirtyMonth()
 # @exitcode 0 The day id tested is in [0-31].
 # @exitcode 1 The day id tested is not in [0-31].
 # @exitcode 2 Function missing arguments.
+#
+# @stdout No output.
 function date::inThirtyOneMonth()
 {
     [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
@@ -844,6 +854,8 @@ function date::inThirtyOneMonth()
 # @exitcode 0 The day id tested is in [0-29].
 # @exitcode 1 The day id tested is not in [0-29].
 # @exitcode 2 Function missing arguments.
+#
+# @stdout No output.
 function date::inFebruary()
 {
     [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
@@ -863,6 +875,8 @@ function date::inFebruary()
 # @exitcode 0 The month id tested is in [1-12].
 # @exitcode 1 The month id tested is not in [1-12].
 # @exitcode 2 Function missing arguments.
+#
+# @stdout No output.
 function date::isValidMonth()
 {
     [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
@@ -882,6 +896,8 @@ function date::isValidMonth()
 # @exitcode 0 The day id tested is in the given month.
 # @exitcode 1 The day id tested is not in the given month.
 # @exitcode 2 Function missing arguments.
+#
+# @stdout No output.
 function date::isValidDayInMonth()
 {
     [[ $# -lt 2 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
@@ -910,10 +926,31 @@ function date::isValidDayInMonth()
 # @exitcode 0 The hour id is in [0-23].
 # @exitcode 1 The hour id is not in [0-23].
 # @exitcode 2 Function missing arguments.
+#
+# @stdout No output.
 function date::isValidHour()
 {
     [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
     [[ "$1" =~ ^((0?[0-9])|(1[0-9])|(2[0-3]))$ ]] && return 0
+    return 1
+}
+
+# @description Check if a date has the format yyyy-mm-dd.
+#
+# @example
+#   date::isValidDateFormat "2022-02-17"
+#
+# @arg $1 string The date string.
+#
+# @exitcode 0 The date string has the rigth format.
+# @exitcode 1 The date string hasn't the rigth format.
+# @exitcode 2 Function missing arguments.
+#
+# @stdout No output.
+function date::isValidDateFormat()
+{
+    [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
+    [[ "$1" =~ ^[0-9]{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$ ]] && return 0
     return 1
 }
 

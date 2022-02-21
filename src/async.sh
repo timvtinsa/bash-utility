@@ -17,6 +17,8 @@
 #
 # @exitcode 0 Success.
 # @exitcode 2 Function missing arguments.
+#
+# @stdout The loading animation if the option is activated.
 function async::run()
 {
     [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
@@ -36,6 +38,8 @@ function async::run()
 #   async::loading
 #
 # @exitcode 0 Success.
+#
+# @stdout The loading animation.
 function async::loading()
 {
     spin='-\|/'
@@ -54,6 +58,8 @@ function async::loading()
 #   async::noCallback
 #
 # @exitcode 0 Success.
+#
+# @stdout No output.
 function async::noCallback()
 {
     return 0
@@ -67,6 +73,8 @@ function async::noCallback()
 # @arg $1 string The message to display.
 #
 # @exitcode 0 Success.
+#
+# @stdout The message passed in input.
 function async::msgCallback()
 {
     echo -e "\r$*"

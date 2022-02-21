@@ -17,6 +17,8 @@
 # @exitcode 0 Success.
 # @exitcode 1 If no match found in the array.
 # @exitcode 2 Function missing arguments.
+#
+# @stdout No output.
 function array::contains() {
     [[ $# -lt 2 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
     declare -a array=("${@:1:$#-1}")
@@ -296,6 +298,8 @@ function array::merge() {
 #
 # @exitcode 0 Success.
 # @exitcode 2 Function missing arguments.
+#
+# @stdout Array of n zeros.
 function array::zeros()
 {
     [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
@@ -321,6 +325,8 @@ function array::zeros()
 #
 # @exitcode 0 Success.
 # @exitcode 2 Function missing arguments.
+#
+# @stdout Array of n ones.
 function array:ones()
 {
     [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
@@ -349,6 +355,8 @@ function array:ones()
 #
 # @exitcode 0 Success.
 # @exitcode 2 Function missing arguments.
+#
+# @stdout Filtered array.
 function array::filter()
 {
     [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
@@ -382,6 +390,8 @@ function array::filter()
 #
 # @exitcode 0 Success.
 # @exitcode 2 Function missing arguments.
+#
+# @stdout Array with elements respecting the rule passed in input.
 function array::keep()
 {
     [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
@@ -410,6 +420,8 @@ function array::keep()
 #
 # @exitcode 0 Success.
 # @exitcode 2 Function missing arguments.
+#
+# @stdout Elements of the array passed in input.
 function array::display()
 {
     [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
@@ -437,6 +449,8 @@ function array::display()
 #
 # @exitcode 0 Success.
 # @exitcode 2 Function missing arguments.
+#
+# @stdout Array of unique elements
 function array::toSet()
 {
     [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
@@ -445,7 +459,7 @@ function array::toSet()
     printf '%s\n' "${rtn[@]}"
 }
 
-# @description Find the maximum in an array of integer.
+# @description Find the maximum in an array of int.
 #
 # @example
 #   items=("2" "3" "1" "4")
@@ -453,10 +467,12 @@ function array::toSet()
 #   #Output
 #        4
 #
-# @arg $1 array Array in which to find the maximum.
+# @arg $1 array Array where to find the maximum.
 #
 # @exitcode 0 Success.
 # @exitcode 2 Function missing arguments.
+#
+# @stdout The maximum of the list of integers.
 function array::max()
 {
     [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
@@ -467,7 +483,7 @@ function array::max()
     printf '%s\n' "$max"
 }
 
-# @description Find the minimum in an array of integer.
+# @description Find the minimum in an array of int.
 #
 # @example
 #   items=("2" "3" "1" "4")
@@ -475,10 +491,12 @@ function array::max()
 #   #Output
 #        1
 #
-# @arg $1 array Array in which to find the minimum.
+# @arg $1 array Array where to find the minimum.
 #
 # @exitcode 0 Success.
 # @exitcode 2 Function missing arguments.
+#
+# @stdout The minimum of the list of integers.
 function array::min()
 {
     [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
@@ -501,6 +519,8 @@ function array::min()
 #
 # @exitcode 0 Success.
 # @exitcode 2 Function missing arguments.
+#
+# @stdout The sum of the elements of the array.
 function array::sum()
 {
     declare -i sum=0
@@ -508,4 +528,63 @@ function array::sum()
         (( sum+=element ))
     done
     printf '%s\n' "$sum"
+}
+
+# @description Add a prefix to each element of the list. 
+#
+# @example
+#   items=("test1" "test2")
+#   array::prefix "${items[@]}" "pre"
+#   #Output
+#       pretest1
+#       pretest2
+#
+# @arg $1 Array The array of elements to prefix.
+# @arg $2 string The prefix to add before each element.
+#
+# @exitcode 0 Success.
+# @exitcode 2 Function missing arguments.
+#
+# @stdout Prefixed array.
+function array::prefix() 
+{
+    [[ $# -lt 2 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
+    declare -a array=("${@:1:$#-1}")
+    declare prefix="${*:$#}"
+    declare -a rtn=()
+
+    for element in "${array[@]}" ; do
+        rtn+=( "$prefix$element" )
+    done
+    printf '%s\n' "${rtn[@]}"
+}
+
+# @description Add a suffix to each element of the list. 
+#
+# @example
+#   items=("test1" "test2")
+#   array::suffix "${items[@]}" "suf"
+#   #Output
+#       test1suf
+#       test2suf
+#
+# @arg $1 Array The array of elements to suffix.
+# @arg $2 string The suffix to add after each element.
+#
+# @exitcode 0 Success.
+# @exitcode 2 Function missing arguments.
+#
+# @stdout Suffixed array.
+function array::suffix() 
+{
+    [[ $# -lt 2 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
+    declare -a array=("${@:1:$#-1}")
+    declare suffix="${*:$#}"
+    declare -a rtn=()
+
+    for element in "${array[@]}" ; do
+        rtn+=( "$element$suffix" )
+    done
+    printf '%s\n' "${rtn[@]}"
+
 }

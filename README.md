@@ -1,7 +1,7 @@
 <h1 align="center">Extended Bash Utility</h1>
 
 This project is a fork from https://github.com/labbots/bash-utility.
-From this fork, I worked on two main points : 
+From this fork, I worked on three main points : 
 - I extended the array and date librairies.
   - For the array library, I've made the following functions : 
     - [array::contains()](#arraycontains)
@@ -14,6 +14,8 @@ From this fork, I worked on two main points :
     - [array::max()](#arraymax)
     - [array::min()](#arraymin)
     - [array::sum()](#arraysum)
+    - [array::prefix()](#arrayprefix)
+    - [array::suffix()](#arraysuffix)
   
   - For the date library, I've made the following functions : 
     - [date::isThirtyMonth()](#dateisthirtymonth)
@@ -25,13 +27,18 @@ From this fork, I worked on two main points :
     - [date::isValidMonth()](#dateisvalidmonth)
     - [date::isValidDayInMonth()](#dateisvaliddayinmonth)
     - [date::isValidHour()](#dateisvalidhour)
+    - [date::isValidDateFormat()](#dateisvaliddateformat)
   
-- I created a library for asynchronous management in bash (file async.sh) :
+- I created a library for asynchronous management (file async.sh) :
   - [Async](#async)
     - [async::run()](#asyncrun)
     - [async::loading()](#asyncloading)
     - [async::noCallback()](#asyncnocallback)
     - [async::msgCallback()](#asyncmsgcallback)
+
+- I created a library for dynamic menu generation (file menu.sh) :
+  - [Menu](#menu)
+    - [menu::generate()](#menugenerate)
 
 <h1 align="center">Bash Utility</h1>
 
@@ -83,6 +90,8 @@ Detailed documentation is available at <https://labbots.github.io/bash-utility/>
   - [array::max()](#arraymax)
   - [array::min()](#arraymin)
   - [array::sum()](#arraysum)
+  - [array::prefix()](#arrayprefix)
+  - [array::suffix()](#arraysuffix)
 - [Async](#async)
   - [async::run()](#asyncrun)
   - [async::loading()](#asyncloading)
@@ -141,6 +150,7 @@ Detailed documentation is available at <https://labbots.github.io/bash-utility/>
   - [date::isValidMonth()](#dateisvalidmonth)
   - [date::isValidDayInMonth()](#dateisvaliddayinmonth)
   - [date::isValidHour()](#dateisvalidhour)
+  - [date::isValidDateFormat()](#dateisvaliddateformat)
 - [Debug](#debug)
   - [debug::print_array()](#debugprint_array)
   - [debug::print_ansi()](#debugprint_ansi)
@@ -166,6 +176,8 @@ Detailed documentation is available at <https://labbots.github.io/bash-utility/>
   - [interaction::prompt_response()](#interactionprompt_response)
 - [Json](#json)
   - [json::get_value()](#jsonget_value)
+- [Menu](#menu)
+  - [menu::generate()](#menugenerate)
 - [Miscellaneous](#miscellaneous)
   - [misc::check_internet_connection()](#misccheck_internet_connection)
   - [misc::get_pid()](#miscget_pid)
@@ -657,7 +669,7 @@ For each element of the array, keep the part that match with the rule given in i
 
 #### Output on stdout
 
-- Processed array.
+- Array with elements respecting the rule passed in input.
 
 #### Example
 
@@ -687,7 +699,7 @@ Display the array.
 
 #### Output on stdout
 
-- Processed array.
+- Elements of the array passed in input.
 
 #### Example
 
@@ -719,7 +731,7 @@ Remove the duplicate items from the array (set policy).
 
 #### Output on stdout
 
-- Processed array.
+- Array of unique elements.
 
 #### Example
 
@@ -813,6 +825,62 @@ array::sum "${items[@]}"
 10
 ```
 
+### array::prefix()
+
+Add a prefix to each element of the list. 
+
+#### Arguments
+
+- **$1** (array): The array of elements to prefix.
+- **$2** (string): The prefix to add before each element.
+
+#### Exit codes
+
+- **0**: Success.
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+- Prefixed array.
+
+#### Example
+
+```bash
+items=("test1" "test2")
+array::prefix "${items[@]}" "pre"
+#Output
+pretest1
+pretest2
+```
+
+### array::suffix()
+
+Add a suffix to each element of the list. 
+
+#### Arguments
+
+- **$1** (array): The array of elements to suffix.
+- **$2** (string): The suffix to add after each element.
+
+#### Exit codes
+
+- **0**: Success.
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+- Suffixed array.
+
+#### Example
+
+```bash
+items=("test1" "test2")
+array::suffix "${items[@]}" "suf"
+#Output
+test1suf
+test2suf
+```
+
 ## Async
 
 Functions for asynchron management. 
@@ -831,6 +899,10 @@ Run an asynchron call of a function.
 
 - **0**: Success.
 - **2**: Function missing arguments.
+
+#### Output on stdout
+
+- The loading animation if the option is activated.
 
 #### Example
 
@@ -851,6 +923,9 @@ No arguments.
 
 - **0**: Success.
 
+#### Output on stdout
+
+- The loading animation while the parent process is running.
 #### Example
 
 ```bash
@@ -885,6 +960,9 @@ Callback function to display a message.
 
 - **0**: Success.
 
+#### Output on stdout
+
+- The message passed in input.
 #### Example
 
 ```bash
@@ -2237,6 +2315,29 @@ No output.
 date::isValidHour "13"
 ```
 
+### date::isValidDateFormat()
+
+Check if a date has the format yyyy-mm-dd.
+
+#### Arguments
+
+- **$1** (string): The date string.
+
+#### Exit codes
+
+- **0**: The date string has the rigth format.
+- **1**: The date string hasn't the rigth format.
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+No output.
+
+#### Example
+
+```bash
+date::isValidDateFormat "2022-02-17"
+```
 ## Debug
 
 Functions to facilitate debugging scripts.
@@ -2753,7 +2854,7 @@ Input to the function can be a pipe output, here-string or file.
 
 #### Exit codes
 
-- **0**:  If match successful.
+- **0**: If match successful.
 - **2**: Function missing arguments.
 
 #### Output on stdout
@@ -2767,7 +2868,36 @@ json::get_value "id" "1" < json_file
 json::get_value "id" <<< "${json_var}"
 echo "{\"data\":{\"id\":\"123\",\"value\":\"name string\"}}" | json::get_value "id"
 ```
+## Menu
 
+Function for dynamic menu generation.
+### menu::generate()
+
+This function allows to generate a menu from a list of propositions with a quit option. 
+
+#### Arguments
+
+- **$1** (string): The introduction sentence to display before the menu.
+- **$2** (string): Variable name to pass the choosen option in reference.
+- **$3** (int): If 0, the menu return the index of the proposition chosen,
+else if 1, the menu return the value of the proposition chosen.
+- **$4** (int): If 0, the menu display a quit option at the end of the
+propositions, else if 1, the menu only displays the values of te propositions.
+- **$5** (array): Array of propositions.
+#### Exit codes
+
+- **0**: If successful.
+- **2**: Function missing arguments.
+#### Output on stdout
+
+- The menu generated dynamically.
+#### Example
+
+```bash
+items=("item1" "item2" "item3")
+testvar="test"
+menu::generate "Test introduce sentence" "testvar" 1 0 "${items[@]}" 
+```
 ## Miscellaneous
 
 Set of miscellaneous helper functions.
