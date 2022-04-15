@@ -675,13 +675,15 @@ For each element of the array, keep the part that match with the rule given in i
 
 ```bash
 items=("op01a" "op02a" "op03m" "op04m" "op05a")
+keep="sed 's/[^a-z]*//g'"
+items=($(array::keep "${items[@]}" "$keep"))
 array::display "${items[@]}"
 #Output
-element 0 : op01a
-element 1 : op02a
-element 2 : op03m
-element 3 : op04m
-element 4 : op05a
+element 0 : opa
+element 1 : opa
+element 2 : opm
+element 3 : opm
+element 4 : opa
 ```
 
 ### array::display()
@@ -705,15 +707,13 @@ Display the array.
 
 ```bash
 items=("op01a" "op02a" "op03m" "op04m" "op05a")
-keep="sed 's/[^a-z]*//g'"
-items=($(array::keep "${items[@]}" "$keep"))
 array::display "${items[@]}"
 #Output
-element 0 : opa
-element 1 : opa
-element 2 : opm
-element 3 : opm
-element 4 : opa
+element 0 : op01a
+element 1 : op02a
+element 2 : op03m
+element 3 : op04m
+element 4 : op05a
 ```
 
 ### array::toSet()
