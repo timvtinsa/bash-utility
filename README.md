@@ -586,7 +586,7 @@ Create an array with n zeros.
 #### Example
 
 ```bash
-items=($(array::zeros "3"))
+mapfile -t items <<< "$(array::zeros "3")"
 array::display "${items[@]}"
 #Output
 element 0 : 0
@@ -614,12 +614,12 @@ Create an array with n ones.
 #### Example
 
 ```bash
-items=($(array::ones "3"))
+mapfile -t items <<< "$(array::zeros "3")"
 array::display "${items[@]}"
 #Output
-element 0 : 1
-element 1 : 1
-element 2 : 1
+element 0 : 0
+element 1 : 0
+element 2 : 0
 ```
 
 ### array::filter()
@@ -645,7 +645,7 @@ Remove the elements that not match with the filter.
 ```bash
 items=("op01a" "op02a" "op03m" "op04m" "op05a")
 regex="^op[0-9]{2}a$"
-items=($(array::filter "${items[@]}" "$regex"))
+mapfile -t items <<< "$(array::filter "${items[@]}" "$regex")"
 array::display "${items[@]}"
 #Output
 element 0 : op01a
@@ -675,15 +675,13 @@ For each element of the array, keep the part that match with the rule given in i
 
 ```bash
 items=("op01a" "op02a" "op03m" "op04m" "op05a")
-keep="sed 's/[^a-z]*//g'"
-items=($(array::keep "${items[@]}" "$keep"))
 array::display "${items[@]}"
 #Output
-element 0 : opa
-element 1 : opa
-element 2 : opm
-element 3 : opm
-element 4 : opa
+element 0 : op01a
+element 1 : op02a
+element 2 : op03m
+element 3 : op04m
+element 4 : op05a
 ```
 
 ### array::display()
@@ -707,13 +705,15 @@ Display the array.
 
 ```bash
 items=("op01a" "op02a" "op03m" "op04m" "op05a")
+keep="sed 's/[^a-z]*//g'"
+mapfile -t items <<< "$(array::keep "${items[@]}" "$keep")"
 array::display "${items[@]}"
 #Output
-element 0 : op01a
-element 1 : op02a
-element 2 : op03m
-element 3 : op04m
-element 4 : op05a
+element 0 : opa
+element 1 : opa
+element 2 : opm
+element 3 : opm
+element 4 : opa
 ```
 
 ### array::toSet()
