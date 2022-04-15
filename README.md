@@ -1,3 +1,45 @@
+<h1 align="center">Extended Bash Utility</h1>
+
+This project is a fork from https://github.com/labbots/bash-utility.
+From this fork, I worked on three main points : 
+- I extended the array and date librairies.
+  - For the array library, I've made the following functions : 
+    - [array::contains()](#arraycontains)
+    - [array::zeros()](#arrayzeros)
+    - [array::ones()](#arrayones)
+    - [array::filter()](#arrayfilter)
+    - [array::keep()](#arraykeep)
+    - [array::display()](#arraydisplay)
+    - [array::toSet()](#arraytoset)
+    - [array::max()](#arraymax)
+    - [array::min()](#arraymin)
+    - [array::sum()](#arraysum)
+    - [array::prefix()](#arrayprefix)
+    - [array::suffix()](#arraysuffix)
+  
+  - For the date library, I've made the following functions : 
+    - [date::isThirtyMonth()](#dateisthirtymonth)
+    - [date::isThirtyOneMonth()](#dateisthirtyonemonth)
+    - [date::isFebruray()](#dateisfebruray)
+    - [date::inThirtyMonth()](#dateinthirtymonth)
+    - [date::inThirtyOneMonth()](#dateinthirtyonemonth)
+    - [date::inFebruary()](#dateinfebruary)
+    - [date::isValidMonth()](#dateisvalidmonth)
+    - [date::isValidDayInMonth()](#dateisvaliddayinmonth)
+    - [date::isValidHour()](#dateisvalidhour)
+    - [date::isValidDateFormat()](#dateisvaliddateformat)
+  
+- I created a library for asynchronous management (file async.sh) :
+  - [Async](#async)
+    - [async::run()](#asyncrun)
+    - [async::loading()](#asyncloading)
+    - [async::noCallback()](#asyncnocallback)
+    - [async::msgCallback()](#asyncmsgcallback)
+
+- I created a library for dynamic menu generation (file menu.sh) :
+  - [Menu](#menu)
+    - [menu::generate()](#menugenerate)
+
 <h1 align="center">Bash Utility</h1>
 
 <p align="center">
@@ -39,6 +81,22 @@ Detailed documentation is available at <https://labbots.github.io/bash-utility/>
   - [array::rsort()](#arrayrsort)
   - [array::bsort()](#arraybsort)
   - [array::merge()](#arraymerge)
+  - [array::zeros()](#arrayzeros)
+  - [array::ones()](#arrayones)
+  - [array::filter()](#arrayfilter)
+  - [array::keep()](#arraykeep)
+  - [array::display()](#arraydisplay)
+  - [array::toSet()](#arraytoset)
+  - [array::max()](#arraymax)
+  - [array::min()](#arraymin)
+  - [array::sum()](#arraysum)
+  - [array::prefix()](#arrayprefix)
+  - [array::suffix()](#arraysuffix)
+- [Async](#async)
+  - [async::run()](#asyncrun)
+  - [async::loading()](#asyncloading)
+  - [async::noCallback()](#asyncnocallback)
+  - [async::msgCallback()](#asyncmsgcallback)
 - [Check](#check)
   - [check::command_exists()](#checkcommand_exists)
   - [check::is_sudo()](#checkis_sudo)
@@ -83,6 +141,16 @@ Detailed documentation is available at <https://labbots.github.io/bash-utility/>
   - [date::sub_minutes()](#datesub_minutes)
   - [date::sub_seconds()](#datesub_seconds)
   - [date::format()](#dateformat)
+  - [date::isThirtyMonth()](#dateisthirtymonth)
+  - [date::isThirtyOneMonth()](#dateisthirtyonemonth)
+  - [date::isFebruray()](#dateisfebruray)
+  - [date::inThirtyMonth()](#dateinthirtymonth)
+  - [date::inThirtyOneMonth()](#dateinthirtyonemonth)
+  - [date::inFebruary()](#dateinfebruary)
+  - [date::isValidMonth()](#dateisvalidmonth)
+  - [date::isValidDayInMonth()](#dateisvaliddayinmonth)
+  - [date::isValidHour()](#dateisvalidhour)
+  - [date::isValidDateFormat()](#dateisvaliddateformat)
 - [Debug](#debug)
   - [debug::print_array()](#debugprint_array)
   - [debug::print_ansi()](#debugprint_ansi)
@@ -108,6 +176,8 @@ Detailed documentation is available at <https://labbots.github.io/bash-utility/>
   - [interaction::prompt_response()](#interactionprompt_response)
 - [Json](#json)
   - [json::get_value()](#jsonget_value)
+- [Menu](#menu)
+  - [menu::generate()](#menugenerate)
 - [Miscellaneous](#miscellaneous)
   - [misc::check_internet_connection()](#misccheck_internet_connection)
   - [misc::get_pid()](#miscget_pid)
@@ -224,20 +294,20 @@ Check if item exists in the given array.
 
 #### Arguments
 
-- **$1** (mixed): Item to search (needle).
-- **$2** (array): array to be searched (haystack).
+- **$1** (array): Array to be searched.
+- **$2** (mixed): Item to search.
 
 #### Exit codes
 
-- **0**:  If successful.
+- **0**: Success.
 - **1**: If no match found in the array.
 - **2**: Function missing arguments.
 
 #### Example
 
 ```bash
-array=("a" "b" "c")
-array::contains "c" ${array[@]}
+items=("a" "b" "c")
+array::contains "${items[@]}" "c"
 #Output
 0
 ```
@@ -494,6 +564,409 @@ a
 c
 d
 c
+```
+
+### array::zeros()
+
+Create an array with n zeros.
+
+#### Arguments
+
+- **$1** (string): The length of the array to create.
+
+#### Exit codes
+
+- **0**: Success.
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+- Array with n zeros.
+
+#### Example
+
+```bash
+mapfile -t items <<< "$(array::zeros "3")"
+array::display "${items[@]}"
+#Output
+element 0 : 0
+element 1 : 0
+element 2 : 0
+```
+
+### array::ones()
+
+Create an array with n ones.
+
+#### Arguments
+
+- **$1** (string): The length of the array to create.
+
+#### Exit codes
+
+- **0**: Success.
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+- Array with n ones.
+
+#### Example
+
+```bash
+mapfile -t items <<< "$(array::zeros "3")"
+array::display "${items[@]}"
+#Output
+element 0 : 0
+element 1 : 0
+element 2 : 0
+```
+
+### array::filter()
+
+Remove the elements that not match with the filter.
+
+#### Arguments
+
+- **$1** (array): Array to fiter.
+- **$2** (string): Regex for the fiter.
+
+#### Exit codes
+
+- **0**: Success.
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+- Filtered array.
+
+#### Example
+
+```bash
+items=("op01a" "op02a" "op03m" "op04m" "op05a")
+regex="^op[0-9]{2}a$"
+mapfile -t items <<< "$(array::filter "${items[@]}" "$regex")"
+array::display "${items[@]}"
+#Output
+element 0 : op01a
+element 1 : op02a
+element 2 : op05a
+```
+
+### array::keep()
+
+For each element of the array, keep the part that match with the rule given in input.
+
+#### Arguments
+
+- **$1** (array): Array to process.
+- **$2** (string): Rule to apply.
+
+#### Exit codes
+
+- **0**: Success.
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+- Array with elements respecting the rule passed in input.
+
+#### Example
+
+```bash
+items=("op01a" "op02a" "op03m" "op04m" "op05a")
+array::display "${items[@]}"
+#Output
+element 0 : op01a
+element 1 : op02a
+element 2 : op03m
+element 3 : op04m
+element 4 : op05a
+```
+
+### array::display()
+
+Display the array.
+
+#### Arguments
+
+- **$1** (array): Array to display.
+
+#### Exit codes
+
+- **0**: Success.
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+- Elements of the array passed in input.
+
+#### Example
+
+```bash
+items=("op01a" "op02a" "op03m" "op04m" "op05a")
+keep="sed 's/[^a-z]*//g'"
+mapfile -t items <<< "$(array::keep "${items[@]}" "$keep")"
+array::display "${items[@]}"
+#Output
+element 0 : opa
+element 1 : opa
+element 2 : opm
+element 3 : opm
+element 4 : opa
+```
+
+### array::toSet()
+
+Remove the duplicate items from the array (set policy).
+
+#### Arguments
+
+- **$1** (array): Array to process.
+
+#### Exit codes
+
+- **0**: Success.
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+- Array of unique elements.
+
+#### Example
+
+```bash
+items=("op01a" "op02a" "op03m" "op03m" "op05a")
+IFS=" " read -r -a items <<< "$(array::toSet "${items[@]}")"
+array::display "${items[@]}"
+#Output
+element 0 : op01a
+element 1 : op02a
+element 2 : op03m
+element 3 : op05a
+element 4 : opa
+```
+
+### array::max()
+
+Find the maximum in an array of integer.
+
+#### Arguments
+
+- **$1** (array): Array in which to find the maximum.
+
+#### Exit codes
+
+- **0**: Success.
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+- The maximum integer of the array.
+
+#### Example
+
+```bash
+items=("2" "3" "1" "4")
+array::max "${items[@]}"
+#Output
+4
+```
+
+### array::min()
+
+Find the mnimum in an array of integer.
+
+#### Arguments
+
+- **$1** (array): Array in which to find the minimum.
+
+#### Exit codes
+
+- **0**: Success.
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+- The minimum integer of the array.
+
+#### Example
+
+```bash
+items=("2" "3" "1" "4")
+array::min "${items[@]}"
+#Output
+1
+```
+
+### array::sum()
+
+Compute the sum of the elements of an array of int.
+
+#### Arguments
+
+- **$1** (array): Array to sum.
+
+#### Exit codes
+
+- **0**: Success.
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+- The sum of the elements of the array.
+
+#### Example
+
+```bash
+items=("2" "3" "1" "4")
+array::sum "${items[@]}"
+#Output
+10
+```
+
+### array::prefix()
+
+Add a prefix to each element of the list. 
+
+#### Arguments
+
+- **$1** (array): The array of elements to prefix.
+- **$2** (string): The prefix to add before each element.
+
+#### Exit codes
+
+- **0**: Success.
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+- Prefixed array.
+
+#### Example
+
+```bash
+items=("test1" "test2")
+array::prefix "${items[@]}" "pre"
+#Output
+pretest1
+pretest2
+```
+
+### array::suffix()
+
+Add a suffix to each element of the list. 
+
+#### Arguments
+
+- **$1** (array): The array of elements to suffix.
+- **$2** (string): The suffix to add after each element.
+
+#### Exit codes
+
+- **0**: Success.
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+- Suffixed array.
+
+#### Example
+
+```bash
+items=("test1" "test2")
+array::suffix "${items[@]}" "suf"
+#Output
+test1suf
+test2suf
+```
+
+## Async
+
+Functions for asynchron management. 
+
+### async::run()
+
+Run an asynchron call of a function.
+
+#### Arguments
+
+- **$1** (function): The function to run in background.
+- **$2** (function): The callback function.
+- **$3** (int): Flag to activate the loading during the processing of the main
+
+#### Exit codes
+
+- **0**: Success.
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+- The loading animation if the option is activated.
+
+#### Example
+
+```bash
+foo()  { zip foo.zip *; }
+bar()  { echo "done!";  }
+async::run foo bar 0
+```
+
+### async::loading()
+
+Display a loading animation during the process of the main function.
+
+#### Arguments
+
+No arguments.
+#### Exit codes
+
+- **0**: Success.
+
+#### Output on stdout
+
+- The loading animation while the parent process is running.
+#### Example
+
+```bash
+async::loading
+```
+
+### async::noCallback()
+
+Placeholder for the callback function.
+
+#### Arguments
+
+No arguments.
+#### Exit codes
+
+- **0**: Success.
+
+#### Example
+
+```bash
+async::noCallback
+```
+
+### async::msgCallback()
+
+Callback function to display a message.
+
+#### Arguments
+
+- **$1** (string): The message to display.
+#### Exit codes
+
+- **0**: Success.
+
+#### Output on stdout
+
+- The message passed in input.
+#### Example
+
+```bash
+async::msgCallback "Message"
 ```
 
 ## Check
@@ -1615,6 +2088,256 @@ echo echo "$(date::format "1594143480")"
 2020-07-07 18:38:00
 ```
 
+### date::isThirtyMonth()
+
+Check if a month gets 30 days.
+Supports input like 01, 1, 10 etc. 
+
+#### Arguments
+
+- **$1** (string): The month id to test
+
+#### Exit codes
+
+- **0**: The month tested is a month of thirty days.
+- **1**: The month tested is not a month of thirty days.
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+No output.
+
+#### Example
+
+```bash
+date::isThirtyMonth "10"
+```
+
+### date::isThirtyOneMonth()
+
+Check if a month gets 31 days.
+Supports input like 01, 1, 10 etc. 
+
+#### Arguments
+
+- **$1** (string): The month id to test
+
+#### Exit codes
+
+- **0**: The month tested is a month of thirty one days.
+- **1**: The month tested is not a month of thirty one days.
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+No output.
+
+#### Example
+
+```bash
+date::isThirtyOneMonth "10"
+```
+
+### date::isFebruray()
+
+Check if a month is February.
+Supports input like 01, 1, 10 etc. 
+
+#### Arguments
+
+- **$1** (string): The month id to test
+
+#### Exit codes
+
+- **0**: The month tested is February.
+- **1**: The month tested is not February.
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+No output.
+
+#### Example
+
+```bash
+date::isFebruray "10"
+```
+
+### date::inThirtyMonth()
+
+Check if a day id is in [0-30].
+Supports input like 01, 1, 10 etc. 
+
+#### Arguments
+
+- **$1** (string): The day id to test.
+
+#### Exit codes
+
+- **0**: The day id tested is in [0-30].
+- **1**: The day id tested is not in [0-30].
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+No output.
+
+#### Example
+
+```bash
+date::inThirtyMonth "10"
+```
+
+### date::inThirtyOneMonth()
+
+Check if a day id is in [0-31].
+Supports input like 01, 1, 10 etc. 
+
+#### Arguments
+
+- **$1** (string): The day id to test.
+
+#### Exit codes
+
+- **0**: The day id tested is in [0-31].
+- **1**: The day id tested is not in [0-31].
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+No output.
+
+#### Example
+
+```bash
+date::inThirtyOneMonth "10"
+```
+
+### date::inFebruary()
+
+Check if a day id is in [0-29].
+Supports input like 01, 1, 10 etc. 
+
+#### Arguments
+
+- **$1** (string): The day id to test.
+
+#### Exit codes
+
+- **0**: The day id tested is in [0-29].
+- **1**: The day id tested is not in [0-29].
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+No output.
+
+#### Example
+
+```bash
+date::inFebruary "10"
+```
+
+### date::isValidMonth()
+
+Check if a month id is in [1-12].
+Supports input like 01, 1, 10 etc. 
+
+#### Arguments
+
+- **$1** (string): The month id to test.
+
+#### Exit codes
+
+- **0**: The day id tested is in [0-29].
+- **1**: The day id tested is not in [0-29].
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+No output.
+
+#### Example
+
+```bash
+date::isValidMonth "10"
+```
+
+### date::isValidDayInMonth()
+
+Check if a day id is in a specific given month. 
+Supports input like 01, 1, 10 for day and month ids etc.
+
+#### Arguments
+
+- **$1** (string): The day id to test.
+- **$1** (string): The month id to test.
+
+#### Exit codes
+
+- **0**: The day id tested is in the given month.
+- **1**: The day id tested is not in the given month.
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+No output.
+
+#### Example
+
+```bash
+date::isValidDayInMonth "31" "01"
+```
+
+### date::isValidHour()
+
+Check if an hour id is in [0-23].
+Supports input like 01, 1, 10 etc. 
+
+#### Arguments
+
+- **$1** (string): The day id to test.
+- **$1** (string): The month id to test.
+
+#### Exit codes
+
+- **0**: The hour id is in [0-23].
+- **1**: The hour id is not in [0-23].
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+No output.
+
+#### Example
+
+```bash
+date::isValidHour "13"
+```
+
+### date::isValidDateFormat()
+
+Check if a date has the format yyyy-mm-dd.
+
+#### Arguments
+
+- **$1** (string): The date string.
+
+#### Exit codes
+
+- **0**: The date string has the rigth format.
+- **1**: The date string hasn't the rigth format.
+- **2**: Function missing arguments.
+
+#### Output on stdout
+
+No output.
+
+#### Example
+
+```bash
+date::isValidDateFormat "2022-02-17"
+```
 ## Debug
 
 Functions to facilitate debugging scripts.
@@ -2131,7 +2854,7 @@ Input to the function can be a pipe output, here-string or file.
 
 #### Exit codes
 
-- **0**:  If match successful.
+- **0**: If match successful.
 - **2**: Function missing arguments.
 
 #### Output on stdout
@@ -2145,7 +2868,36 @@ json::get_value "id" "1" < json_file
 json::get_value "id" <<< "${json_var}"
 echo "{\"data\":{\"id\":\"123\",\"value\":\"name string\"}}" | json::get_value "id"
 ```
+## Menu
 
+Function for dynamic menu generation.
+### menu::generate()
+
+This function allows to generate a menu from a list of propositions with a quit option. 
+
+#### Arguments
+
+- **$1** (string): The introduction sentence to display before the menu.
+- **$2** (string): Variable name to pass the choosen option in reference.
+- **$3** (int): If 0, the menu return the index of the proposition chosen,
+else if 1, the menu return the value of the proposition chosen.
+- **$4** (int): If 0, the menu display a quit option at the end of the
+propositions, else if 1, the menu only displays the values of te propositions.
+- **$5** (array): Array of propositions.
+#### Exit codes
+
+- **0**: If successful.
+- **2**: Function missing arguments.
+#### Output on stdout
+
+- The menu generated dynamically.
+#### Example
+
+```bash
+items=("item1" "item2" "item3")
+testvar="test"
+menu::generate "Test introduce sentence" "testvar" 1 0 "${items[@]}" 
+```
 ## Miscellaneous
 
 Set of miscellaneous helper functions.
