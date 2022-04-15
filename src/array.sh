@@ -327,7 +327,7 @@ function array::zeros()
 # @exitcode 2 Function missing arguments.
 #
 # @stdout Array of n ones.
-function array:ones()
+function array::ones()
 {
     [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
     declare -a rtn=()
