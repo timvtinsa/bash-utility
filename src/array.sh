@@ -287,7 +287,7 @@ function array::merge() {
 # @description Create an array with n zeros.
 #
 # @example
-#   items=($(array::zeros "3"))
+#   mapfile -t items <<< "$(array::zeros "3")"
 #   array::display "${items[@]}"
 #   #Output
 #        element 0 : 0
@@ -314,7 +314,7 @@ function array::zeros()
 # @description Create an array with n ones.
 #
 # @example
-#   items=($(array::ones "3"))
+#   mapfile -t items <<< "$(array::ones "3")"
 #   array::display "${items[@]}"
 #   #Output
 #        element 0 : 1
@@ -327,7 +327,7 @@ function array::zeros()
 # @exitcode 2 Function missing arguments.
 #
 # @stdout Array of n ones.
-function array::ones()
+function array:ones()
 {
     [[ $# = 0 ]] && printf "%s: Missing arguments\n" "${FUNCNAME[0]}" && return 2
     declare -a rtn=()
@@ -343,7 +343,7 @@ function array::ones()
 # @example
 #   items=("op01a" "op02a" "op03m" "op04m" "op05a")
 #   regex="^op[0-9]{2}a$"
-#   items=($(array::filter "${items[@]}" "$regex"))
+#   mapfile -t items <<< "$(array::filter "${items[@]}" "$regex")"
 #   array::display "${items[@]}"
 #   #Output
 #        element 0 : op01a
@@ -376,7 +376,7 @@ function array::filter()
 # @example
 #   items=("op01a" "op02a" "op03m" "op04m" "op05a")
 #   keep="sed 's/[^a-z]*//g'"
-#   items=($(array::keep "${items[@]}" "$keep"))
+#   mapfile -t items <<< "$(array::keep "${items[@]}" "$keep")"
 #   array::display "${items[@]}"
 #   #Output
 #        element 0 : opa
