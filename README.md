@@ -614,12 +614,12 @@ Create an array with n ones.
 #### Example
 
 ```bash
-items=($(array::zeros "3"))
+items=($(array::ones "3"))
 array::display "${items[@]}"
 #Output
-element 0 : 0
-element 1 : 0
-element 2 : 0
+element 0 : 1
+element 1 : 1
+element 2 : 1
 ```
 
 ### array::filter()
